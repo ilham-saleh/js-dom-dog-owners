@@ -68,7 +68,7 @@ const data = [
             perspiciatis ipsum!`,
     isGoodDog: true,
     image: "https://curriculum-content.s3.amazonaws.com/js/woof-woof/dog_7.jpg"
-  }
+  },
 ];
 
 window.data = data;
