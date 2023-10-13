@@ -111,15 +111,18 @@ function makeForm(dog) {
     const bioInput = makeInput('bio', 'textarea')
     const isGoodInput = makeInput('isGood', 'text')
     const submitButton = makeInput('submit', 'submit', "Let's add a dog!")
-
+    
     form.className = 'form'
     submitButton.className = 'form__button'
 
-
-    submitButton.addEventListener('click', (e) => {
+    
+    form.addEventListener('submit', (e) => {
         e.preventDefault()
         const headerLis = document.querySelectorAll('li')
-        headerLis.forEach((dogList) => dogList.remove()) 
+        headerLis.forEach((dogList) => dogList.remove())
+
+        const headerUl = document.querySelector('.dogs-list')
+        headerUl.append(headerLi)
 
         const name = document.querySelector('input[name="name"]')
         const image = document.querySelector("input[name = 'image']")
@@ -145,6 +148,8 @@ function makeForm(dog) {
 
         renderList()
     })
+
+
 
     form.append(
         nameLabel,
@@ -172,7 +177,7 @@ function makeLabel(forAttr, text){
     return label
 }
 
-function makeInput(idName, type, value) {
+function makeInput(idName, type = 'text', value) {
     // let input = null
 
     let input = document.createElement('input')
@@ -181,7 +186,7 @@ function makeInput(idName, type, value) {
         input.setAttribute('row', '5')
     } else {
         input = document.createElement('input')
-        input.setAttribute('type', 'text')
+        input.setAttribute('type', type)
     }
 
     input.setAttribute('id', idName)
