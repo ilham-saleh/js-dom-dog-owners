@@ -1,10 +1,16 @@
 console.log(data);
 
+const headerUl = document.querySelector('.dogs-list')
+
 function makeDogNav() {
-    const main = document.querySelector('.main')
-
+    
     renderList()
+    
+    addDog()
+}
 
+function addDog(){
+    const main = document.querySelector('.main')
     const plusButton = document.querySelector('.dogs-list__button--add')
     plusButton.addEventListener('click', () => {
         const section = document.querySelector('.main__dog-section')
@@ -58,20 +64,42 @@ function createDesc(dog) {
 
 function createBottomCard(dog) {
     const button = document.createElement('button')
-    const text = document.createElement('p')
     const div = document.createElement('div')
-
     div.className = 'main__dog-section__desc'
 
-    text.innerText = 'Is naughty? Yes!'
+    const em = document.createElement('em')
+    const p = document.createElement('p')
+    const span = document.createElement('span')
+    span.innerText = "Yes!"
 
-    if (dog.isGoodDog === true){
-        button.innerText = 'Good dog'
-    } else {
-        button.innerText = 'Bad dog'
+    
+    let goodOrBad
+    if (dog.isGoodDog ===  true){
+        goodOrBad = "Good dog"
+    }else {
+        goodOrBad = "Bad dog"
     }
 
-    div.append(text, button)
+    button.innerText = goodOrBad
+   
+    button.addEventListener('click', () => {   
+        console.log(dog.isGoodDog)
+        if (dog.isGoodDog === true){
+            const span = div.querySelector('span')
+            span.innerText = "Yes"
+            dog.isGoodDog = false
+            button.innerText = "Bad dog"
+        }else {
+            dog.isGoodDog = true
+            button.innerText = "Good dog"
+            span.innerText = "No"
+        }
+    })
+
+    em.innerText = "Is Naughty? "
+    p.append(em, span)
+    
+    div.append(p, button)
 
     return div
 }
@@ -118,26 +146,24 @@ function makeForm(dog) {
     
     form.addEventListener('submit', (e) => {
         e.preventDefault()
-        const headerLis = document.querySelectorAll('li')
+        const headerLis = headerUl.querySelectorAll('li')
         headerLis.forEach((dogList) => dogList.remove())
-
-        const headerUl = document.querySelector('.dogs-list')
-        headerUl.append(headerLi)
 
         const name = document.querySelector('input[name="name"]')
         const image = document.querySelector("input[name = 'image']")
         const biograph = document.querySelector("textarea[name = 'bio']")
         const isGood = document.querySelector("input[name = 'isGood']")
 
-        // let isGoodValue = true
-        // if (isGood.value === 'no') {
-        //     isGoodValue = false
-        // }else return isGoodValue
+        const addButton = document.createElement('li')
+        addButton.className = 'dogs-list__button--add dogs-list__button'
+        addButton.innerText = "+"
+        headerUl.append(addButton)   
         
-        const nameValue = name.value
-        data.push({
-            name: nameValue,
+        // const nameValue = name.value
+        data.unshift({
+            name: name.value,
             bio: biograph.value,
+            isGoodDog: true,
             image: image.value
         })
 
@@ -146,10 +172,9 @@ function makeForm(dog) {
         biograph.value = ''
         isGood.value = ''
 
+        addDog()
         renderList()
     })
-
-
 
     form.append(
         nameLabel,
@@ -163,11 +188,12 @@ function makeForm(dog) {
         submitButton,
         
         )
-
+    
     main.append(form)
-
+    
     return form
 }
+
 
 function makeLabel(forAttr, text){
     const label = document.createElement('label')
@@ -178,7 +204,6 @@ function makeLabel(forAttr, text){
 }
 
 function makeInput(idName, type = 'text', value) {
-    // let input = null
 
     let input = document.createElement('input')
     if (type === 'textarea') {
