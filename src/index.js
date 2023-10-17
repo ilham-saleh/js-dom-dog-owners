@@ -137,9 +137,23 @@ function makeForm(dog) {
     const nameInput = makeInput('name')
     const imageInput = makeInput('image', 'url')
     const bioInput = makeInput('bio', 'textarea')
-    const isGoodInput = makeInput('isGood', 'text')
+    // const isGoodInput = makeInput('isGood', 'text')
     const submitButton = makeInput('submit', 'submit', "Let's add a dog!")
-    
+
+    // drop down list 
+    const select = document.createElement('select')
+    const selectOption = document.createElement('option')
+    const yesOption = document.createElement('option')
+    yesOption.setAttribute('value', 'yes')
+    const noOption = document.createElement('option')
+    noOption.setAttribute('value', 'no')
+    selectOption.innerText = "Please say your dog is a good one"
+    yesOption.innerText = "Yes"
+    noOption.innerText = "No"
+    select.append(selectOption, yesOption, noOption)
+
+    console.log(select)
+
     form.className = 'form'
     submitButton.className = 'form__button'
 
@@ -153,6 +167,20 @@ function makeForm(dog) {
         const image = document.querySelector("input[name = 'image']")
         const biograph = document.querySelector("textarea[name = 'bio']")
         const isGood = document.querySelector("input[name = 'isGood']")
+
+        // drop down list value
+    
+        // const optionYes = document.querySelector('option').value      
+
+        // let trueOrFalse
+        // if (optionYes === "Yes"){
+        //     trueOrFalse = true
+        // }
+        // if(optionYes === "No") {
+        //     trueOrFalse = false
+        // }else {
+        //     console.log('not selected')
+        // }
 
         const addButton = document.createElement('li')
         addButton.className = 'dogs-list__button--add dogs-list__button'
@@ -170,8 +198,12 @@ function makeForm(dog) {
         name.value = ''
         image.value = ''
         biograph.value = ''
-        isGood.value = ''
+        // isGood.value = ''
 
+        const mainSection = document.querySelector(".main__dog-section")
+        mainSection.remove()
+        form.remove()
+        makeDogCard(data[0])
         addDog()
         renderList()
     })
@@ -184,7 +216,8 @@ function makeForm(dog) {
         bioLabel,
         bioInput,
         isGoodLabel,
-        isGoodInput,
+        select,
+        // isGoodInput,
         submitButton,
         
         )
